@@ -1,0 +1,1 @@
+function loops through each url in the "urls" array and runs a request that returns the body of the response as a .txt file. the name of each file is derived from its index value in the loop, which is then subtracted by the length of the array in order to have the numbering go from 0-9, rather than the less intuitive 10-19 given to each without that calculation
