@@ -1,4 +1,4 @@
-#Part 1
+# Part 1
 This script accesses our postgreSQL database using a pg module that enters our credentials and password to the client. 
 
 ```
@@ -36,7 +36,7 @@ client.query(thisQuery, (err, res) => {
 });
 ```
 
-#Part 2
+# Part 2
 This script accesses our DynamoDB database using an aws-sdk node module that connects our cloud9 environment to our DynamoDB database. 
 
 ```
