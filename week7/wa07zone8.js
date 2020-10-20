@@ -32,7 +32,7 @@ $("td[style='border-bottom:1px solid #e3e3e3; width:260px']").each(function(i, e
     if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "125 - TWO FOR ONE - </b>"){
         groupName.push("125 - TWO FOR ONE");
     } else {
-        groupName.push($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0].split('-')[0].replace("&apos;","'").trim());
+        groupName.push($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0].split('-')[0].replace("&apos;","'").trim().replace("&amp;","&"));
     }
     if ($(elem).html().search("detailsBox") != -1){
         details.push($(elem).html().split('div')[1].split('>')[1].split('<')[0].split('\t')[1].split('\n')[0].trim().replace("&apos;","'").replace("&amp;","&"));

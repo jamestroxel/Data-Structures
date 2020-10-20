@@ -57,7 +57,7 @@ $("td[style='border-bottom:1px solid #e3e3e3;width:350px;']").each(function(i, e
         daytimeobject.startTime = seperate[i].trim().split('</b>')[1].trim().split('to')[0].split('<b>')[0].trim();
         daytimeobject.endTime = seperate[i].trim().split('<br>')[0].trim().split('</b>' + ' ')[2];
         if (seperate[i].trim().split('</b>').length == 5){
-            // daytimeobject.specialInterest = seperate[i].trim().split('</b>')[4].trim().split(' \n')[0];
+            daytimeobject.specialInterest = seperate[i].trim().split('</b>')[4].trim().split(' \n')[0];
             daytimeobject.meetingType = seperate[i].trim().split('</b>')[3].trim().split('<br>')[0];
         } else {
             daytimeobject.meetingType = seperate[i].trim().split('</b>')[3].trim().split(' \n')[0];

@@ -5,82 +5,62 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
 // load the text file into a variable, `content`
-var content = fs.readFileSync('data/8.txt');
+var content = fs.readFileSync('data/4.txt');
 // load `content` into a cheerio object
 var $ = cheerio.load(content);
 var address = [];
-var floorInfo =[];
-var groupName =[];
+var floorInfo = [];
+var groupName = [];
 var dayTime = [];
-// var day = [];
-// var startTime = [];
-// var endTime = [];
-var meetingType = [];
 var building = [];
 var wcAccess = [];
 var details = [];
 var zip = [];
-//work towards targetting the correct element
+
+//work towards targeting the correct element
 $("td[style='border-bottom:1px solid #e3e3e3; width:260px']").each(function(i, elem) {
-    floorInfo.push($(elem).html().split('<br>')[2].trim().split(',')[1].trim());
+    // floorInfo.push($(elem).html().split('<br>')[2].trim().split(',')[1].trim());
+    if ($(elem).html().split('<br>')[2].trim().split(',')[0].trim() == "230 East 60th Street (Basement)"){
+        floorInfo.push("(Basement), (Betw 2nd & 3rd Avenues)");
+    } else if ($(elem).html().split('<br>')[2].trim().split(',')[0] == "283 Lexington Avenue"){
+        floorInfo.push("2nd Floor, (Betw 36th & 37th Streets)");
+    } else if ($(elem).html().split('<br>')[2].trim().split(',')[0] == "240 East 31st Street"){
+        floorInfo.push("");
+    } else if ($(elem).html().search(" NY") != -1){
+        floorInfo.push($(elem).html().split(',').splice(1,$(elem).html().split(',').length).join(',').split('NY')[0].replace('\n\t\t\t\t\t\t<br>','').replace('<br>','').replace("&apos;","'").replace("&amp;","&").trim());
+    } else {
+        floorInfo.push($(elem).html().split(',').splice(1,$(elem).html().split(',').length).join(',').split('100')[0].replace('\n\t\t\t\t\t\t<br>','').replace('<br>','').replace("&apos;","'").replace("&amp;","&").trim());
+    }
+    if ($(elem).html().split('<br>')[2].trim().split(',')[0].trim() == "230 East 60th Street (Basement)"){
+        address.push("230 East 60th Street");
+    } else {
+        address.push($(elem).html().split('<br>')[2].trim().split(',')[0].trim());
+    }
     if ($(elem).html().split('<br>')[3].trim().slice(- 5) == 'nues)'){
         zip.push("10023");
-    } else { 
-        zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    }
-    if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "EIGHTIETH STREET BEGINNERS</b>"){
-        zip.push("10024");
-    } else {
-        zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    }   
-    if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "NINETY</b>" || "NIGHT LIGHT BEGINNERS</b>" || "FIRST THINGS FIRST</b>"){
-        zip.push("10025");
-    } else {
-        zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    } 
-    //   if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "NIGHT LIGHT BEGINNERS</b>"){
-    //     zip.push("10025");
-    // } else {
-    //     zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    // }
-    if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "FRIDAY NIGHT STEP</b>"){
-        zip.push("10024");
     } else {
         zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
     }
-    //   if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "FIRST THINGS FIRST</b>"){
-    //     zip.push("10025");
-    // } else {
-    //     zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    // }
-    if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "ATLANTIC WEST STEP & TRADITION</b>" || "ANSONIA</b>"){
-        zip.push("10023");
+    if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "125 - TWO FOR ONE - </b>"){
+        groupName.push("125 - TWO FOR ONE");
     } else {
-        zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    }
-    //   if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "ANSONIA</b>"){
-    //     zip.push("10023");
-    // } else {
-    //     zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    // }
-    address.push($(elem).html().split('<br>')[2].trim().split(',')[0].trim());
-    if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "YORKVILLE-BUTTERFIELD - Yorkville</b>"){
-        groupName.push("YORKVILLE-BUTTERFIELD");
-    } else {
-        groupName.push($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0].split('-')[0].replace("&apos;","'").trim().replace("&amp;","&"));
+        groupName.push($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0].split('-')[0].replace("&apos;","'").replace("&amp;","&").replace("\'","'").trim());
     }
     if ($(elem).html().search("detailsBox") != -1){
-        details.push($(elem).html().split('div')[1].split('>')[1].split('<')[0].split('\t')[1].split('\n')[0].trim().replace("&apos;","'").replace("&amp;","&"));
+        details.push($(elem).html().split('div')[1].split('\t')[1].split('\n')[0].replace("&apos;","'").replace("&amp;","&").replace("<br>","").replace("<br>Thurs","Thurs").trim());
     } else {
         details.push('');
     }
     if ($(elem).html().split('img').length == 2){
-        wcAccess.push(1)
+        wcAccess.push('1')
     } else {
-        wcAccess.push(0)
+        wcAccess.push('0')
     }
 });
-    var seperate = []
+
+// console.log(floorInfo);
+// console.log(address);
+var seperate = []
 $("td[style='border-bottom:1px solid #e3e3e3;width:350px;']").each(function(i, elem) {
     seperate = $(elem).html().split('<br>\n                    \t<br>');
     var daytimes = [];
@@ -106,18 +86,12 @@ $("td[style='border-bottom:1px solid #e3e3e3;width:350px;']").each(function(i, e
     dayTime.push(daytimes);
     console.log(daytimes);
 });
-// $("td[style='border-bottom:1px solid #e3e3e3;width:350px;']").each(function(i, elem) {
-//     day.push($(elem).html().split('From')[0].trim().split('<b>')[1]);
-//     startTime.push($(elem).html().split('</b>')[1].trim().split('to')[0].split('<b>')[0].trim());
-//     endTime.push($(elem).html().split('<br>')[0].trim().split('</b>' + ' ')[2]);
-//     meetingType.push($(elem).html().split('<b>')[3].trim().split('<br>')[0].trim().split(',')[0].split('-')[0].split('</b>')[1].trim());
-// });
+
+
 $('h4[style="margin:0;padding:0;"]').each(function(i, elem) {
     building.push(($(elem).text()).trim().split("\n"));
 });
 
-//write data to txt
-// fs.writeFileSync('data/zone9.txt');
 //Week 3 - Pull Geocodes
 // dependencies
 var //fs = require('fs'), //already declared in week 2 section
@@ -125,24 +99,17 @@ var //fs = require('fs'), //already declared in week 2 section
       request = require('request'),
       async = require('async'),
       dotenv = require('dotenv');
-// load the text file into a variable, `content`
-// var addresses_text = fs.readFileSync('data/addresses.txt');
-// console.log(addresses_text);
+
 //fetch from api
-"use strict";
+"use strict"
 // TAMU api key
-dotenv.config({path: '../.env'});
+dotenv.config({path: '/home/ec2-user/environment/.env'});
 const API_KEY = process.env.TAMU_API;
 // console.log(API_KEY);
-const API_URL = 'https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx';
+const API_URL = 'https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx'
 // geocode addresses
 let meetingsData = [];
-// let addresses_arr = address.toString().split('\n');
-// addresses_arr.splice(addresses_arr.length-1,1);
-// let building_arr = building.toString().split('\n');
-// building_arr.splice(building_arr.length-1,1);
-// let addresses = ["63 Fifth Ave", "16 E 16th St", "2 W 13th St"];
-// console.log(addresses_arr);
+
 var i = 0;
 // eachSeries in the async module iterates over an array and operates on each item in the array in series
 async.eachSeries(address, function(value, callback) {
@@ -178,7 +145,7 @@ async.eachSeries(address, function(value, callback) {
     i++;
 }
 , function() {
-    fs.writeFileSync('data/zone6.json', JSON.stringify(meetingsData));
+    fs.writeFileSync('data/zone5.json', JSON.stringify(meetingsData));
     // console.log('*** *** *** *** ***');
     // console.log(`Number of meetings in this zone: ${meetingsData.length}`);
     console.log(meetingsData);

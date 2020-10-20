@@ -5,7 +5,7 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
 // load the text file into a variable, `content`
-var content = fs.readFileSync('data/8.txt');
+var content = fs.readFileSync('data/2.txt');
 // load `content` into a cheerio object
 var $ = cheerio.load(content);
 var address = [];
@@ -23,49 +23,14 @@ var zip = [];
 //work towards targetting the correct element
 $("td[style='border-bottom:1px solid #e3e3e3; width:260px']").each(function(i, elem) {
     floorInfo.push($(elem).html().split('<br>')[2].trim().split(',')[1].trim());
-    if ($(elem).html().split('<br>')[3].trim().slice(- 5) == 'nues)'){
-        zip.push("10023");
+    if ($(elem).html().split('<br>')[3].trim() == 'Between Broadway and Columbuis Avenues)</b>'){
+        zip.push('10023');
     } else { 
         zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
     }
-    if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "EIGHTIETH STREET BEGINNERS</b>"){
-        zip.push("10024");
-    } else {
-        zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    }   
-    if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "NINETY</b>" || "NIGHT LIGHT BEGINNERS</b>" || "FIRST THINGS FIRST</b>"){
-        zip.push("10025");
-    } else {
-        zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    } 
-    //   if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "NIGHT LIGHT BEGINNERS</b>"){
-    //     zip.push("10025");
-    // } else {
-    //     zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    // }
-    if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "FRIDAY NIGHT STEP</b>"){
-        zip.push("10024");
-    } else {
-        zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    }
-    //   if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "FIRST THINGS FIRST</b>"){
-    //     zip.push("10025");
-    // } else {
-    //     zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    // }
-    if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "ATLANTIC WEST STEP & TRADITION</b>" || "ANSONIA</b>"){
-        zip.push("10023");
-    } else {
-        zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    }
-    //   if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "ANSONIA</b>"){
-    //     zip.push("10023");
-    // } else {
-    //     zip.push($(elem).html().split('<br>')[3].trim().slice(- 5));
-    // }
     address.push($(elem).html().split('<br>')[2].trim().split(',')[0].trim());
-    if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "YORKVILLE-BUTTERFIELD - Yorkville</b>"){
-        groupName.push("YORKVILLE-BUTTERFIELD");
+    if ($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0] == "125 - TWO FOR ONE - </b>"){
+        groupName.push("125 - TWO FOR ONE");
     } else {
         groupName.push($(elem).html().split('<b>')[1].trim().split('<br>')[0].trim().split(',')[0].split('-')[0].replace("&apos;","'").trim().replace("&amp;","&"));
     }
@@ -178,7 +143,7 @@ async.eachSeries(address, function(value, callback) {
     i++;
 }
 , function() {
-    fs.writeFileSync('data/zone6.json', JSON.stringify(meetingsData));
+    fs.writeFileSync('data/zone1.json', JSON.stringify(meetingsData));
     // console.log('*** *** *** *** ***');
     // console.log(`Number of meetings in this zone: ${meetingsData.length}`);
     console.log(meetingsData);
