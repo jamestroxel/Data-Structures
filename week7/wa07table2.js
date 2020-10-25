@@ -13,15 +13,24 @@ db_credentials.password = process.env.AWSRDS_PW;
 db_credentials.port = 5432;
 // console.log(process.env.AWSRDS_PW)
 
-var addressesForDb = JSON.parse(fs.readFileSync('../week3/data/geoLocations.json'));
+var addressesForDb = JSON.parse(fs.readFileSync('../week7/data/zone10.json'));
 
 async.eachSeries(addressesForDb, function(value, callback) {
-    const client = new Client(db_credentials);
-    client.connect();
-    var thisQuery = "INSERT INTO aalocations VALUES (E'" + value.StreetAddress.StreetAddress + "', " + value.LatLong[0] + ", " + value.LatLong[1] + ");";
+    // const client = new Client(db_credentials);
+    // client.connect();
+    async.eachSeries(value.dayTime, function(entry, callback) {
+        const client = new Client(db_credentials);
+        client.connect();
+        var thisQuery = "INSERT INTO aalocations VALUES (E'" + value.address + "', " + value.latLong.lat + ", " + value.latLong.long + ", E'" + value.building[0].replace(/'/g,"") + "', E'" + value.floorInfo.replace(/,/g,"").replace(/'/g,"") + "', E'" + value.groupName.replace(/'/g,"").replace(/,/g,"") + "', " 
+                                                        + value.wcAccess + ", E'" + entry.day  + "', E'" + entry.startTime  + "', E'" + entry.endTime  + "', E'" 
+                                                        + entry.meetingType.replace(/'/g,"")  + "', E'" + value.details.replace(/,/g,"").replace(/'/g,"") + "');";
     client.query(thisQuery, (err, res) => {
         console.log(err, res);
         client.end();
     });
+        setTimeout(callback, 1000); 
+        console.log(thisQuery);
+    }); 
     setTimeout(callback, 1000); 
-}); 
+    // console.log(thisQuery);
+});
