@@ -18,6 +18,7 @@ client.connect();
 
 // Sample SQL statement to query the entire contents of a table: 
 var thisQuery = "SELECT * FROM aalocations;";
+// var thisQuery = "SELECT count(*) FROM aalocations;";
 
 client.query(thisQuery, (err, res) => {
     console.log(err, res.rows);
