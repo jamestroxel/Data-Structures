@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Jim's Process Blog</title>
+  <meta name="description" content="Jim's Process Blog">
+  <meta name="author" content="James Troxel">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+</head>
+
+<body>
+
+<script>
+var data = {{{pbdata}}} ; 
+
+var myTable = '<table><thead><tr><th>Game Id</th><th>Date</th><th>NYT</th><th>Op Rank</th><th>My Rank</th><th>Win/Loss</th><th>Moves</th></tr></thead><tbody>';
+
+for (var i=0; i < data.length; i++) {
+	myTable += '<tr>';
+	myTable += '<td>' + data[i].GameId.S + '</td>';
+	myTable += '<td>' + data[i].date.S + '</td>';
+	myTable += '<td>' + data[i].nytHead.S + '</td>';
+	myTable += '<td>' + data[i].opRank.N + '</td>';
+	myTable += '<td>' + data[i].myRank.N + '</td>';
+	myTable += '<td>' + data[i].win.BOOL + '</td>';
+	myTable += '<td>' + data[i].moves.N + '</td>';
+	myTable += '</tr>';
+
+}
+
+myTable += '</body></table>'
+
+$(window).on('load', function() {
+  $("#myEntries").html(myTable)
+});
+
+</script>
+
+<h3>Jims's process blog</h3>
+
+<div id='myEntries'></div>
+
+<p><span class="blinking">My life is so interesting!</span></p>
+
+</body>
+</html>

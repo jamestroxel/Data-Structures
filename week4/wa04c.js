@@ -17,7 +17,7 @@ const client = new Client(db_credentials);
 client.connect();
 
 // Sample SQL statement to query the entire contents of a table: 
-var thisQuery = "SELECT * FROM sensorData;";
+var thisQuery = "SELECT * FROM aalocations;";
 
 client.query(thisQuery, (err, res) => {
     console.log(err, res.rows);
