@@ -8,4 +8,4 @@ The app.get command requests the aa meeting data stored in the RDS database and 
 The app makes a request o the RDS database where the Particle temperature sensor data is stored, and uses a handlebars module to insert the data into the "data" variable found in "sensor.txt". D3 binds the SQL query data for the day and average temperature to the bar chart. 
 
 ## Process Blog
-app.js sneds a DynamoDB query that returns individual items according to their primary key, "GameId". The handlebars module is once again used to insert the data into the "data" variable in "pb.txt". A loop iterates over each item in the data and defines the various table items referenced in the "myTable" variable accordingly. 
+app.js sends a DynamoDB query that returns individual items according to their primary key, "GameId". The handlebars module is once again used to insert the data into the "data" variable in "pb.txt". A loop iterates over each item in the data and defines the various table items referenced in the "myTable" variable accordingly. 
